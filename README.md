@@ -18,9 +18,8 @@
 * Personalized game picks based on your past favorites
 * Reasons for each recommendation
 
-
-
-
+![image alt](https://github.com/Reneesh28/Game_Stats_Dashboard_Recommendation-System/blob/e31b49ae44906a8edd0f3796d294e198d00278d9/is/17.png)
+![image alt](https://github.com/Reneesh28/Game_Stats_Dashboard_Recommendation-System/blob/e31b49ae44906a8edd0f3796d294e198d00278d9/is/18.png)
 # Features
 1. **Excel-Based Game Upload:** Upload and analyze your own game stats from Excel
 2. **Genre & Playtime Insights:** Automatically analyze what genres you enjoy and how much time you spend on each
