@@ -1,12 +1,7 @@
 import streamlit as st
 import pandas as pd
-from dotenv import load_dotenv
 from groq import Groq
 import os
-
-# Load environment variables from .env if available
-load_dotenv()
-
 # Set your test API key here as fallback
 FALLBACK_API_KEY = "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"  # ← Replace this with your real key
 
@@ -52,7 +47,7 @@ For each recommended game, explain why you chose it.
 """
 
     # Use env var if set, otherwise fallback to the hardcoded one
-    api_key = os.getenv("GROQ_API_KEY") or FALLBACK_API_KEY
+    api_key = FALLBACK_API_KEY
     if not api_key or "your_actual_groq_api_key_here" in api_key:
         raise ValueError("❌ Groq API key is missing. Set it in the .env file or update FALLBACK_API_KEY.")
 
