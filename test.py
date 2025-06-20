@@ -1,8 +1,8 @@
-pip install groq
 import streamlit as st
 import pandas as pd
-from groq import Groq
+import requests
 import os
+
 # Set your test API key here as fallback
 FALLBACK_API_KEY = "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"  # ← Replace this with your real key
 
@@ -30,7 +30,7 @@ uploaded_file = st.file_uploader(
     help="Column names like Game, Genre, Playtime are required. Case and spaces are ignored."
 )
 
-# Recommendation function
+# Recommendation function using Groq API via HTTP
 def get_game_recommendation(df: pd.DataFrame) -> str:
     try:
         summary = df[["Game", "Genre", "Playtime"]].to_string(index=False)
@@ -47,23 +47,29 @@ Game List:
 For each recommended game, explain why you chose it.
 """
 
-    # Use env var if set, otherwise fallback to the hardcoded one
     api_key = FALLBACK_API_KEY
     if not api_key or "your_actual_groq_api_key_here" in api_key:
         raise ValueError("❌ Groq API key is missing. Set it in the .env file or update FALLBACK_API_KEY.")
 
-    client = Groq(api_key=api_key)
+    url = "https://api.groq.com/openai/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "llama3-8b-8192",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7,
+        "max_tokens": 500
+    }
 
-    response = client.chat.completions.create(
-        model="llama3-8b-8192",  # or "mixtral-8x7b-32768"
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7,
-        max_tokens=500
-    )
-
-    return response.choices[0].message.content
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
+    except Exception as e:
+        return f"❌ API request failed: {e}"
 
 # Main flow
 if uploaded_file is not None:
