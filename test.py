@@ -1,3 +1,4 @@
+!pip install groq
 import streamlit as st
 import pandas as pd
 from groq import Groq
