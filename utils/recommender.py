@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 import requests
-from groq import groq
+from groq import Groq
 
 load_dotenv()
 
