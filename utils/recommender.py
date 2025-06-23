@@ -25,7 +25,7 @@ For each recommended game, explain why you chose it.
     client = Groq(api_key="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")
 
     response = client.chat.completions.create(
-        model="mistral-saba-24b",  # Alternatives: mixtral-8x7b-32768
+        model="llama-3.1-8b-instant",  # Alternatives: mixtral-8x7b-32768
         messages=[
             {"role": "user", "content": prompt}
         ],
