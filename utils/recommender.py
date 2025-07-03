@@ -20,7 +20,7 @@ Game List:
 For each recommended game, explain why you chose it.
 """
 
-    client = Groq(api_key="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")
+    client = Groq(api_key="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")
 
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",  # Alternatives: mixtral-8x7b-32768
