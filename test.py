@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import os
 # Set your test API key here as fallback
-FALLBACK_API_KEY = "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"  # ← Replace this with your real key
+FALLBACK_API_KEY = "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"  # ← Replace this with your real key
 
 # Set up Streamlit page
 st.set_page_config(page_title="🎮 Game Stats Dashboard")
