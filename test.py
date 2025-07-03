@@ -1,9 +1,17 @@
 import streamlit as st
-import pandas as pd 
+import pandas as pd
 import requests
 import os
+
+# Optional debug check (you can remove this later)
+try:
+    import openpyxl
+    st.success("✅ openpyxl is installed and working.")
+except ImportError:
+    st.error("❌ openpyxl is not installed.")
+
 # Set your test API key here as fallback
-FALLBACK_API_KEY = "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"  # ← Replace this with your real key
+FALLBACK_API_KEY = "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"  # ← Replace with your real key
 
 # Set up Streamlit page
 st.set_page_config(page_title="🎮 Game Stats Dashboard")
@@ -46,15 +54,12 @@ Game List:
 For each recommended game, explain why you chose it.
 """
 
-    # Use env var if set, otherwise fallback to the hardcoded one
+    from groq import Groq
     api_key = FALLBACK_API_KEY
-    if not api_key or "your_actual_groq_api_key_here" in api_key:
-        raise ValueError("❌ Groq API key is missing. Set it in the .env file or update FALLBACK_API_KEY.")
-
     client = Groq(api_key=api_key)
 
     response = client.chat.completions.create(
-        model="mistral-saba-24b",  # or "mixtral-8x7b-32768"
+        model="llama-3.1-8b-instant",  # or llama3 model if preferred
         messages=[
             {"role": "user", "content": prompt}
         ],
@@ -67,7 +72,8 @@ For each recommended game, explain why you chose it.
 # Main flow
 if uploaded_file is not None:
     try:
-        df = pd.read_excel(uploaded_file)
+        # ✅ Use the fixed version with explicit engine
+        df = pd.read_excel(uploaded_file, engine="openpyxl")
         df.columns = [col.strip().capitalize() for col in df.columns]
 
         required_columns = ["Game", "Genre", "Playtime"]
@@ -100,7 +106,7 @@ if uploaded_file is not None:
                     st.success("🎮 Groq Recommends:")
                     st.write(recommendation)
                 except Exception as e:
-                    st.error(f"❌ Something went wrong: {e}")
+                    st.error(f"❌ Recommendation failed: {e}")
 
     except Exception as e:
         st.error(f"❌ Failed to read Excel file: {e}")
