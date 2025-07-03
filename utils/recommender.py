@@ -2,8 +2,6 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 import requests
-from groq import Groq
-
 load_dotenv()
 
 def get_game_recommendation(df: pd.DataFrame) -> str:
